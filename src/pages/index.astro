@@ -75,11 +75,15 @@ const checklistItems = [
         loading="eager"
         fetchpriority="high"
         decoding="async"
-        class="absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-luminosity"
+        class="absolute inset-0 h-full w-full object-cover object-center"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-void/70 via-void/80 to-void"></div>
       <div
-        class="absolute inset-0 bg-[radial-gradient(#27272a_0.8px,transparent_1px)] bg-[length:5px_5px]"
+        class="absolute inset-0 bg-gradient-to-r from-void/75 via-void/25 to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-void via-void/30 to-transparent"
         aria-hidden="true"
       >
       </div>
