@@ -115,4 +115,14 @@
       color-mix(in oklab, var(--color-emerald-glow) 6%, transparent)
     );
   }
+
+  .hero-headline {
+    text-shadow:
+      0 2px 24px rgba(0, 0, 0, 0.5),
+      0 1px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-subhead {
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+  }
 }
