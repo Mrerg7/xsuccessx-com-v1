@@ -1,0 +1,513 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { HERO_IMAGE, LIVE_STUDIO_IMAGE, SUPER_GROK_IMAGE, ACQUISITION_MAILTO } from '../config/site';
+
+const platformFeatures = (await getCollection('platform-features')).sort(
+  (a, b) => a.data.rank - b.data.rank,
+);
+const creatorGenres = (await getCollection('creator-genres')).sort(
+  (a, b) => a.data.rank - b.data.rank,
+);
+const proTips = (await getCollection('pro-tips')).sort((a, b) => a.data.rank - b.data.rank);
+
+const renderedGenres = await Promise.all(
+  creatorGenres.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const renderedTips = await Promise.all(
+  proTips.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const renderedFeatures = await Promise.all(
+  platformFeatures.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const featureIcons: Record<string, string> = {
+  bolt: 'M13 10V3L4 14h7v7l9-11h-7z',
+  globe: 'M21 12a9 9 0 11-18 0 9 9 0 0118 0z M3.6 9h16.8M3.6 15h16.8M12 3a15.3 15.3 0 010 18M12 3a15.3 15.3 0 000 18',
+  users:
+    'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75',
+};
+
+const genreIcons: Record<string, string> = {
+  newspaper:
+    'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2',
+  'graduation-cap': 'M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c0 2 3 3 6 3s6-1 6-3v-5',
+  music: 'M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z',
+  microchip:
+    'M9 3v2M15 3v2M9 19v2M15 19v2M3 9h2M3 15h2M19 9h2M19 15h2M7 7h10v10H7z',
+  megaphone:
+    'M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0',
+  briefcase: 'M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2',
+};
+
+const checklistItems = [
+  'Active X Premium or Premium+ subscription',
+  'Creator Studio explored in mobile app (sidebar)',
+  'Payment settings & tax info completed',
+  'First Live Studio test stream created',
+  'Posted original video using new editor',
+  'Super Grok used for content research or ideation this week',
+  'Consistent reply strategy to 5+ relevant accounts daily',
+  'Weekly analytics review habit established',
+];
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <header class="relative flex min-h-[100dvh] items-center overflow-hidden border-b border-white/10 pt-16">
+    <div class="absolute inset-0 bg-void">
+      <img
+        src={HERO_IMAGE}
+        alt="Diverse elite creators connected through X.com global real-time information network"
+        width="1920"
+        height="1080"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-luminosity"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-void/70 via-void/80 to-void"></div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(#27272a_0.8px,transparent_1px)] bg-[length:5px_5px]"
+        aria-hidden="true"
+      >
+      </div>
+    </div>
+
+    <div class="relative mx-auto w-full max-w-screen-2xl px-4 pt-12 pb-16 sm:px-6 md:px-8 md:pb-12 md:pt-8">
+      <div class="max-w-5xl">
+        <div
+          class="mb-6 inline-flex items-center gap-x-2 rounded-3xl border border-white/10 bg-white/5 px-4 py-1.5"
+        >
+          <div class="h-2 w-2 animate-pulse rounded-full bg-emerald-glow" aria-hidden="true"></div>
+          <span class="font-mono text-xs font-semibold tracking-[2.5px] text-emerald-glow uppercase">
+            July 2026 &bull; Live Studio Beta + New Video Editor Live
+          </span>
+        </div>
+
+        <h1
+          class="font-display mb-4 text-[clamp(2.5rem,8vw,5.5rem)] leading-[0.92] font-bold tracking-tighter"
+        >
+          Master <span class="text-white">X.com.</span><br />
+          Become the <span class="info-steward">Ultimate Steward</span><br />
+          of Information.
+        </h1>
+
+        <p class="mb-9 max-w-2xl text-xl leading-snug tracking-tight text-muted sm:text-2xl md:text-3xl">
+          The definitive platform for creators who want to own the real-time conversation, leverage
+          professional tools, and harness <span class="font-semibold text-foreground">Super Grok</span> intelligence.
+        </p>
+
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <a
+            href="#creator-studio"
+            class="group inline-flex min-h-12 items-center justify-center gap-x-3 rounded-3xl bg-white px-8 py-4 text-lg font-semibold text-void transition-all hover:bg-zinc-100 active:scale-[0.985]"
+          >
+            <span>Explore Creator Studio</span>
+            <svg class="h-5 w-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a>
+          <a
+            href="#super-grok"
+            class="inline-flex min-h-12 items-center justify-center gap-x-3 rounded-3xl border border-white/30 px-8 py-4 text-lg font-semibold transition-all hover:bg-white/5 active:scale-[0.985]"
+          >
+            Why Premium+ Changes Everything
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 md:block">
+      <a
+        href="#why-x"
+        class="flex flex-col items-center text-xs tracking-widest text-white/50 transition-colors hover:text-white/80"
+      >
+        <span>SCROLL TO BEGIN</span>
+        <svg class="mt-1 h-5 w-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Stats Bar -->
+  <div class="border-b border-white/10 bg-surface/60">
+    <div class="mx-auto max-w-screen-2xl px-4 py-5 sm:px-6 md:px-8">
+      <div class="grid grid-cols-2 gap-y-6 text-center md:grid-cols-4 md:text-left">
+        <div>
+          <div class="font-mono text-2xl font-semibold tracking-tighter sm:text-3xl">~50%</div>
+          <div class="text-sm text-muted">of all impressions on X now come from video content</div>
+        </div>
+        <div>
+          <div class="font-mono text-2xl font-semibold tracking-tighter sm:text-3xl">$1,000,000</div>
+          <div class="text-sm text-muted">fund allocated for livestream creators in 2026 cycle</div>
+        </div>
+        <div>
+          <div class="font-mono text-2xl font-semibold tracking-tighter sm:text-3xl">Premium+</div>
+          <div class="text-sm text-muted">
+            now includes full <span class="font-semibold text-x-blue">Super Grok</span> access
+          </div>
+        </div>
+        <div>
+          <div class="font-mono text-2xl font-semibold tracking-tighter sm:text-3xl">Real-time</div>
+          <div class="text-sm text-muted">global breaking news &amp; primary sources — unmatched speed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why X -->
+  <section id="why-x" class="section-anchor mx-auto max-w-screen-2xl px-4 pt-16 pb-16 sm:px-6 md:px-8 md:pt-20">
+    <div class="mb-12 max-w-3xl">
+      <div class="mb-3 text-xs font-semibold tracking-[3px] text-x-blue uppercase">The Global Pulse</div>
+      <h2 class="section-header tracking-tighter">x.com is where the world happens first.</h2>
+      <p class="mt-4 text-lg text-muted sm:text-xl">
+        No other platform combines global scale, real-time velocity, direct access to primary sources,
+        and algorithmic amplification of high-signal conversation like X. It is the indispensable layer
+        for news, events, discourse, and citizen-led information stewardship.
+      </p>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        renderedFeatures.map(({ entry, Content }) => (
+          <div class="glass rounded-3xl p-6 sm:p-8">
+            <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-x-blue/10 text-x-blue">
+              <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d={featureIcons[entry.data.icon] ?? featureIcons.bolt}
+                />
+              </svg>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold tracking-tight sm:text-2xl">{entry.data.title}</h3>
+            <div class="text-muted">
+              <Content />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 max-w-prose text-sm text-muted">
+      <strong class="text-foreground">Truth-seeking note:</strong> X excels at speed and primary sources.
+      The most effective creators cross-reference, add context, and correct misinformation quickly. Super
+      Grok is an incredible tool for rapid research and verification.
+    </p>
+  </section>
+
+  <!-- Creator Studio -->
+  <section id="creator-studio" class="section-anchor border-y border-white/10 bg-surface py-16">
+    <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 md:px-8">
+      <div class="flex flex-col items-start gap-12 lg:flex-row">
+        <div class="lg:w-5/12">
+          <div class="lg:sticky lg:top-24">
+            <div class="mb-3 text-xs font-semibold tracking-[3px] text-emerald-glow uppercase">
+              July 2026 Updates
+            </div>
+            <h2 class="section-header mb-4 leading-none tracking-tighter">
+              Creator Studio &amp;<br />Live Studio.<br />The professional command center.
+            </h2>
+            <p class="text-lg text-muted sm:text-xl">
+              Everything serious creators need — analytics, monetization, livestreaming, video production
+              — now centralized and dramatically more powerful. Mobile-first. Built for pros.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <div class="inline-flex h-9 items-center rounded-3xl border border-emerald-glow/20 bg-emerald-glow/10 px-4 text-sm text-emerald-glow">
+                <span class="font-medium">Live Studio in beta</span>
+              </div>
+              <div class="inline-flex h-9 items-center rounded-3xl border border-emerald-glow/20 bg-emerald-glow/10 px-4 text-sm text-emerald-glow">
+                <span class="font-medium">New iOS Video Editor</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:w-7/12">
+          <div class="overflow-hidden rounded-3xl border border-white/10 bg-void shadow-2xl">
+            <img
+              src={LIVE_STUDIO_IMAGE}
+              alt="X Live Studio professional dashboard mockup showing real-time analytics, scheduling, chat moderation and RTMP controls"
+              width="1200"
+              height="675"
+              loading="lazy"
+              decoding="async"
+              class="h-auto w-full object-cover"
+            />
+          </div>
+
+          <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <h4 class="mb-3 flex items-center gap-x-2 font-semibold">
+                <span class="text-x-blue">Live Studio — Pro Livestreaming</span>
+              </h4>
+              <ul class="space-y-2.5 text-sm text-muted">
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> Schedule streams up to 1 year in advance with countdowns &amp; custom thumbnails</li>
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> RTMP support for OBS, Streamlabs, vMix, professional encoders &amp; cameras</li>
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> Real-time dashboard: viewers, watch time, countries, devices, chat activity</li>
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> Granular chat controls: subscribers-only, verified, followers, geo-restrictions</li>
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> Private test streams, post-stream analytics + downloadable recordings</li>
+              </ul>
+              <p class="mt-3 text-xs text-emerald-glow">
+                Premium users access via Creator Studio → Live Studio or{' '}
+                <a href="https://x.com/i/live-studio" class="underline" target="_blank" rel="noopener noreferrer">x.com/i/live-studio</a>
+              </p>
+            </div>
+            <div>
+              <h4 class="mb-3 font-semibold text-x-blue">New Video Editing Hub (iOS)</h4>
+              <ul class="space-y-2.5 text-sm text-muted">
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> Automated multi-language captions with custom styling</li>
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> Green screen: use any photo, video or post from your camera roll as background</li>
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> Record in segments + polished aesthetics for professional results</li>
+                <li class="flex gap-2"><span class="mt-1 text-emerald-glow">•</span> More tools rolling out weekly — X's biggest priority right now</li>
+              </ul>
+              <div class="mt-4 rounded-2xl border border-white/10 bg-void p-4 text-xs">
+                <strong class="text-foreground">Pro move:</strong> Video already drives nearly half of impressions. Original, well-edited video is now dramatically easier to produce at scale.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Super Grok -->
+  <section id="super-grok" class="section-anchor mx-auto max-w-screen-2xl px-4 py-16 sm:px-6 md:px-8 md:py-20">
+    <div class="mx-auto mb-12 max-w-4xl text-center">
+      <div class="mb-4 inline rounded-full border border-x-blue/40 px-4 py-1 font-mono text-xs tracking-widest text-x-blue">
+        NO LONGER OPTIONAL
+      </div>
+      <h2 class="section-header tracking-tighter">
+        X Premium+ now includes<br />full <span class="text-x-blue">Super Grok</span>.
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted sm:text-xl">
+        The most powerful AI on the planet is now bundled directly into your X experience. For creators
+        serious about velocity, accuracy, reach, and monetization — this changes the game completely.
+      </p>
+    </div>
+
+    <div class="mb-10 overflow-hidden rounded-3xl border border-white/10 glow-x">
+      <img
+        src={SUPER_GROK_IMAGE}
+        alt="Super Grok AI integrated into X Premium+ creator workflow for research, content creation, and analytics"
+        width="1200"
+        height="630"
+        loading="lazy"
+        decoding="async"
+        class="h-auto w-full object-cover"
+      />
+    </div>
+
+    <div class="grid items-start gap-8 lg:grid-cols-12">
+      <div class="space-y-8 lg:col-span-7">
+        <div class="flex gap-5">
+          <div class="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-x-blue/10 text-x-blue">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">Supercharged Research &amp; Accuracy</div>
+            <p class="mt-1 text-muted">
+              Use Grok 4 + DeepSearch + advanced agents to instantly verify facts, pull context on breaking
+              events, summarize long documents or threads, and ensure every post you make is high-signal and trustworthy.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-5">
+          <div class="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-x-blue/10 text-x-blue">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">Content Creation at Light Speed</div>
+            <p class="mt-1 text-muted">
+              Generate powerful hooks, thread structures, video scripts, image prompts, caption variations,
+              and A/B test ideas in seconds. Turn one idea into a week of high-performing content.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-5">
+          <div class="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-x-blue/10 text-x-blue">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">Analytics &amp; Strategy Intelligence</div>
+            <p class="mt-1 text-muted">
+              Describe your analytics patterns to Grok and get personalized recommendations: best posting times,
+              content formats that resonate with verified audiences, and growth experiments tailored to your niche.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass rounded-3xl p-6 sm:p-8 lg:col-span-5 lg:p-10">
+        <div class="mb-4 text-xs tracking-widest text-white/60 uppercase">What Premium+ Delivers</div>
+        <div class="space-y-4 text-sm">
+          {
+            [
+              'Full Super Grok (Grok 4 + advanced features)',
+              'Blue verification checkmark + reply priority boost',
+              'Monetization eligibility (Revenue Share + Subscriptions)',
+              'Longer posts, edit button, ad-reduced experience',
+              'Dedicated creator support & higher limits',
+            ].map((item) => (
+              <div class="flex items-center justify-between border-b border-white/10 py-1">
+                <div>{item}</div>
+                <div class="font-mono text-xs text-emerald-glow">INCLUDED</div>
+              </div>
+            ))
+          }
+        </div>
+        <a
+          href="https://x.com/i/premium_sign_up"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-6 block w-full rounded-3xl bg-white py-3.5 text-center font-bold tracking-tight text-void transition hover:bg-zinc-100"
+        >
+          Subscribe to X Premium+ &amp; Activate Super Grok
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Every Creator -->
+  <section id="for-creators" class="section-anchor mx-auto max-w-screen-2xl px-4 pb-16 sm:px-6 md:px-8">
+    <div class="mb-10 max-w-3xl">
+      <div class="mb-3 text-xs font-semibold tracking-[3px] text-x-blue uppercase">Universal Advantage</div>
+      <h2 class="section-header tracking-tighter">Built for creators of every genre.</h2>
+      <p class="mt-3 text-lg text-muted sm:text-xl">
+        Whether you're breaking news, teaching complex ideas, entertaining millions, or building movements
+        — X + Creator Studio + Super Grok gives you an unfair advantage.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        renderedGenres.map(({ entry, Content }) => (
+          <div class="glass rounded-3xl p-6 transition-transform hover:-translate-y-2 sm:p-8">
+            <div class="mb-5 flex items-center gap-x-3">
+              <svg class="h-8 w-8 shrink-0 text-x-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d={genreIcons[entry.data.icon] ?? genreIcons.briefcase}
+                />
+              </svg>
+              <div class="text-lg font-semibold tracking-tight sm:text-xl">{entry.data.title}</div>
+            </div>
+            <div class="mb-5 text-sm text-muted">
+              <Content />
+            </div>
+            <div class="text-xs font-medium tracking-widest text-emerald-glow uppercase">
+              Key Edge → {entry.data.edge}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Pro Tips -->
+  <section id="pro-tips" class="section-anchor border-y border-white/10 bg-surface py-16">
+    <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 md:px-8">
+      <div class="mb-10 max-w-3xl">
+        <div class="mb-3 text-xs font-semibold tracking-[3px] text-emerald-glow uppercase">From Good to Elite</div>
+        <h2 class="section-header tracking-tighter">Actionable strategies from the best creators on X.</h2>
+      </div>
+
+      <div class="grid gap-x-12 gap-y-9 lg:grid-cols-2">
+        {
+          renderedTips.map(({ entry, Content }) => (
+            <div class="pro-tip pl-6">
+              <div class="mb-1 text-lg font-semibold">
+                {entry.data.rank}. {entry.data.title}
+              </div>
+              <div class="text-sm text-muted">
+                <Content />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Checklist -->
+      <div class="glass mt-14 rounded-3xl p-6 sm:p-9">
+        <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div class="text-xl font-semibold tracking-tight sm:text-2xl">Creator Readiness Checklist</div>
+            <div class="mt-1 text-sm text-muted">
+              Complete these fundamentals and you're already ahead of 90% of accounts.
+            </div>
+          </div>
+          <div id="checklist-score" class="font-mono text-3xl font-semibold tabular-nums text-foreground sm:text-4xl">
+            0/8
+          </div>
+        </div>
+        <div class="grid gap-x-8 gap-y-3 text-sm md:grid-cols-2">
+          {
+            checklistItems.map((item) => (
+              <label class="flex cursor-pointer items-start gap-x-3">
+                <input type="checkbox" class="check-item mt-1 accent-x-blue" />
+                <span>{item}</span>
+              </label>
+            ))
+          }
+        </div>
+        <div class="mt-6 text-xs text-emerald-glow/70">
+          Check items above — your score updates automatically. 8/8 = You're operating at an elite level.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="mx-auto max-w-screen-2xl px-4 py-16 text-center sm:px-6 md:px-8 md:py-20">
+    <div class="mx-auto max-w-2xl">
+      <h2 class="font-display mb-4 text-4xl leading-none font-bold tracking-tighter sm:text-5xl md:text-6xl">
+        The tools are here.<br />The moment is now.
+      </h2>
+      <p class="text-lg text-muted sm:text-xl md:text-2xl">
+        X.com has never been more powerful for creators. With Live Studio, the new video tools, and Super
+        Grok bundled into Premium+, the ceiling for what you can achieve has been raised dramatically.
+      </p>
+      <div class="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+        <a
+          href="https://x.com/i/live-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 items-center justify-center gap-x-3 rounded-3xl bg-white px-8 py-4 text-lg font-bold text-void transition hover:bg-zinc-100 sm:px-10"
+        >
+          Open Live Studio Now
+        </a>
+        <a
+          href={ACQUISITION_MAILTO}
+          class="inline-flex min-h-12 items-center justify-center gap-x-3 rounded-3xl border border-white/30 px-8 py-4 text-lg font-semibold transition hover:bg-white/5 sm:px-10"
+        >
+          Inquire About xsuccessx.com
+        </a>
+      </div>
+      <p class="mx-auto mt-8 max-w-xs text-xs text-muted">
+        This site is an independent, truth-seeking resource for creators. Not officially affiliated with X Corp.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

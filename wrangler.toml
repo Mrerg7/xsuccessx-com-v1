@@ -1,0 +1,9 @@
+name = "xsuccessx-com-v1"
+compatibility_date = "2026-07-08"
+preview_urls = false
+
+[assets]
+directory = "./dist"
+
+[observability]
+enabled = true

@@ -1,0 +1,107 @@
+---
+const navLinks = [
+  { href: '#why-x', label: 'Why X' },
+  { href: '#creator-studio', label: 'Creator Studio' },
+  { href: '#super-grok', label: 'Super Grok' },
+  { href: '#for-creators', label: 'For Every Creator' },
+  { href: '#pro-tips', label: 'Pro Tips' },
+];
+---
+
+<nav
+  id="nav"
+  class="fixed top-0 right-0 left-0 z-50 border-b border-white/10 bg-void/90 backdrop-blur-xl transition-all"
+>
+  <div class="mx-auto max-w-screen-2xl">
+    <div class="flex items-center justify-between px-4 py-4 sm:px-6 md:px-8 md:py-5">
+      <a href="/" class="flex items-center gap-x-2.5 sm:gap-x-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-2xl bg-white">
+          <span class="text-lg font-black tracking-tighter text-void sm:text-xl">𝕏</span>
+        </div>
+        <div class="font-display text-2xl tracking-tighter sm:text-3xl">
+          XSuccess<span class="text-x-blue">X</span>
+        </div>
+        <div
+          class="hidden rounded-full border border-emerald-glow/30 px-3 py-1 font-mono text-[10px] tracking-[2px] text-emerald-glow md:block"
+        >
+          EST 2026
+        </div>
+      </a>
+
+      <div class="hidden items-center gap-x-7 text-sm font-medium md:flex">
+        {
+          navLinks.map((link) => (
+            <a href={link.href} class="text-muted transition-colors hover:text-foreground">
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="flex items-center gap-x-2 sm:gap-x-3">
+        <a
+          href="https://x.com/i/premium_sign_up"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden min-h-11 items-center rounded-3xl border border-white/20 px-4 py-2.5 text-sm font-semibold transition-all hover:bg-white/5 sm:inline-flex"
+        >
+          Get Premium+
+        </a>
+        <a
+          href="https://x.com/i/live-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-11 items-center gap-x-2 rounded-3xl bg-white px-4 py-2.5 text-sm font-bold text-void transition-all hover:bg-zinc-100 sm:px-6"
+        >
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7z"></path>
+          </svg>
+          <span class="hidden sm:inline">Open Live Studio</span>
+          <span class="sm:hidden">Live Studio</span>
+        </a>
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          class="flex h-11 w-11 items-center justify-center text-muted transition-colors hover:text-foreground md:hidden"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden border-t border-white/10 bg-void px-6 py-6 md:hidden">
+    <div class="flex flex-col gap-y-4 text-lg font-medium">
+      {
+        navLinks.map((link) => (
+          <a href={link.href} class="py-1">
+            {link.label}
+          </a>
+        ))
+      }
+      <div class="flex flex-col gap-y-3 border-t border-white/10 pt-4">
+        <a
+          href="https://x.com/i/premium_sign_up"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block w-full rounded-3xl border border-white/20 py-3 text-center"
+        >
+          Get X Premium+
+        </a>
+        <a
+          href="https://x.com/i/live-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block w-full rounded-3xl bg-white py-3 text-center font-bold text-void"
+        >
+          Launch Live Studio
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
